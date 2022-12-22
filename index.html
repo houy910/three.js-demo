@@ -4,7 +4,7 @@
  * @Autor: houyan
  * @Date: 2022-12-21 14:51:22
  * @LastEditors: houyan
- * @LastEditTime: 2022-12-21 15:44:27
+ * @LastEditTime: 2022-12-21 17:41:13
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -34,11 +34,25 @@
     // 创建一个几何体  参数分别是长宽高
     const geometry = new THREE.BoxGeometry(100,100,100)
     // 给几何体添加颜色
-    const material = new THREE.MeshBasicMaterial({color: 'red'})
+    const material = new THREE.MeshLambertMaterial({color: 'pink'})  // MeshBasicMaterial 这种材质不受光照的影响
     // 创建网格模型mesh    网格模型是一个虚拟的物体 可代表生活中的真实物体，比如箱子等
     const mesh = new THREE.Mesh(geometry,material)
     // 添加到场景中
     scene.add(mesh)
+    // 创建环境光
+    // const light = new THREE.AmbientLight( 0xffffff ); // soft white light
+    // scene.add( light );
+
+    // 创建点光源
+    const pointLight = new THREE.PointLight( 0xffffff, 0.6 );
+    pointLight.position.set( 200, 300, 200 );
+    scene.add( pointLight );
+
+
+
+
+
+
     // 创建透视相机 PerspectiveCamera   四个参数：
     // 1 相机视野角度  代表相机能拍多大范围
     // 2 照片宽高比
@@ -50,6 +64,7 @@
     camera.position.set(200,200,200) // 相机的位置  在几何体之外
     camera.lookAt(0,0,0) //拍摄方向
 
+   
     // 创建渲染器
     const render = new THREE.WebGLRenderer()
     render.setSize(width,height)
