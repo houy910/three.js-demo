@@ -4,7 +4,7 @@
  * @Autor: houyan
  * @Date: 2022-12-21 14:51:22
  * @LastEditors: houyan
- * @LastEditTime: 2022-12-21 17:41:13
+ * @LastEditTime: 2022-12-22 17:04:54
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -24,34 +24,37 @@
 <body>
     <div id="three"></div>
 </body>
-<script src="https://unpkg.com/three@0.147.0/build/three.min.js"></script>
+<script src="./js/three.min.js"></script>
+<script src="./js/controls/OrbitControls.js"></script>
 <script>
     console.log(THREE)
     const width = 800
     const height = 500
     // 创建三维场景
     const scene = new THREE.Scene()
-    // 创建一个几何体  参数分别是长宽高
-    const geometry = new THREE.BoxGeometry(100,100,100)
+    // 创建一个几何体  参数分别是长宽高  100 60 20 对应x y z 可参照辅助线
+    const geometry = new THREE.BoxGeometry(100,60,20)
     // 给几何体添加颜色
-    const material = new THREE.MeshLambertMaterial({color: 'pink'})  // MeshBasicMaterial 这种材质不受光照的影响
+    const material = new THREE.MeshLambertMaterial({color: 'pink',transparent: true, opacity:0.5})  // MeshBasicMaterial 这种材质不受光照的影响
     // 创建网格模型mesh    网格模型是一个虚拟的物体 可代表生活中的真实物体，比如箱子等
     const mesh = new THREE.Mesh(geometry,material)
+    // 网格模型改变位置或者旋转
+    // mesh.position.set(0,150,0)
+    // mesh.rotateY(Math.PI / 4)
     // 添加到场景中
     scene.add(mesh)
     // 创建环境光
-    // const light = new THREE.AmbientLight( 0xffffff ); // soft white light
-    // scene.add( light );
+    const light = new THREE.AmbientLight( 0xffffff ); // soft white light
+    scene.add( light );
 
     // 创建点光源
-    const pointLight = new THREE.PointLight( 0xffffff, 0.6 );
-    pointLight.position.set( 200, 300, 200 );
+    const pointLight = new THREE.PointLight( 0xffffff, 0.3 );
+    pointLight.position.set( 20, 30, 20 );
     scene.add( pointLight );
 
-
-
-
-
+    // 添加点光源辅助(可视化点光源)  10 代表大小
+    const pointLightHelper = new THREE.PointLightHelper( pointLight, 10 );
+    scene.add( pointLightHelper );
 
     // 创建透视相机 PerspectiveCamera   四个参数：
     // 1 相机视野角度  代表相机能拍多大范围
@@ -73,6 +76,16 @@
     console.log(mesh)
     const dom = document.getElementById('three')
     dom.appendChild(render.domElement)
+
+    // 创建轨道控制器
+    const controls = new THREE.OrbitControls(camera, render.domElement)
+    controls.addEventListener('change', () => {
+        render.render(scene,camera)
+    })
+
+    // 添加辅助线  RGB 三种颜色分别对应 x,y,z
+    const axesHelper = new THREE.AxesHelper(150)
+    scene.add(axesHelper)
 
 </script>
 </html>
