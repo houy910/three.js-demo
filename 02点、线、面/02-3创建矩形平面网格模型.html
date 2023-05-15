@@ -4,13 +4,13 @@
  * @Autor: houyan
  * @Date: 2023-05-10 09:15:00
  * @LastEditors: houyan
- * @LastEditTime: 2023-05-10 09:30:37
+ * @LastEditTime: 2023-05-15 18:53:17
 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>创建线条对象</title>
+    <title>第一个three.js文件_WebGL三维场景</title>
     <style>
         body{
             margin: 0;
@@ -19,8 +19,7 @@
     </style>
     <!--引入three.js三维引擎-->
     <script src="http://www.yanhuangxueyuan.com/3D/example/three.min.js"></script>
-    <!--引入轨道控件OrbitControls.js-->
-    <script src="./js/controls/OrbitControls.js"></script>
+    <script src="../js/controls/OrbitControls.js"></script>
 </head>
 <body>
 <script>
@@ -28,27 +27,26 @@
      * 创建场景对象
      */
     var scene=new THREE.Scene();
-    // 创建线条对象
-    var geometry = new THREE.Geometry();//声明一个空几何体对象
-    var p1 = new THREE.Vector3(10,0,0);//顶点1坐标
-    var p2 = new THREE.Vector3(0,20,0);//顶点2坐标
-    geometry.vertices.push(p1,p2); //顶点坐标添加到geometry对象
-
-    // 实线
-    var material=new THREE.LineBasicMaterial({
-        color:0x0000ff //线条颜色
+    /**
+     * 创建矩形平面网格模型
+     */
+     var geometry = new THREE.Geometry(); //声明一个空几何体对象
+    var p1 = new THREE.Vector3(0,0,0); //顶点1坐标
+    var p2 = new THREE.Vector3(80,0,0); //顶点2坐标
+    var p3 = new THREE.Vector3(80,80,0); //顶点3坐标
+    var p4 = new THREE.Vector3(0,80,0); //顶点4坐标
+    geometry.vertices.push(p1,p2,p3,p4); //顶点坐标添加到geometry对象
+    var normal = new THREE.Vector3( 0, 0, 1 ); //三角面法向量
+    var face0 = new THREE.Face3( 0, 1, 2, normal); //创建三角面0
+    var face1 = new THREE.Face3( 0, 2, 3, normal); //创建三角面1
+    geometry.faces.push( face0,face1 ); //三角面添加到几何体
+    var material=new THREE.MeshLambertMaterial({
+        color:0x0000ff,//三角面颜色
+        side:THREE.DoubleSide//两面可见
     });//材质对象
-    // 虚线
-    // geometry.computeLineDistances(); // 必须调用，否则不会有虚线
-    // var material=new THREE.LineDashedMaterial({
-    //     vertexColors: true,
-    //     color: 0xffffff,
-    //     dashSize: 0.6,
-    //     gapSize: 1,
-    //     scale: 0.5 // 比例越大，虚线越密；反之，虚线越疏
-    // });//材质对象
-    var line=new THREE.Line(geometry,material);//线条模型对象
-    scene.add(line);//线条对象添加到场景中
+    var mesh=new THREE.Mesh(geometry,material);//网格模型对象
+    scene.add(mesh);//网格模型添加到场景中
+    
     /**
      * 光源设置
      */
