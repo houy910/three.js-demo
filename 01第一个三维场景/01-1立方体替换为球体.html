@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Version: 
+ * @Autor: houyan
+ * @Date: 2023-05-09 10:43:13
+ * @LastEditors: houyan
+ * @LastEditTime: 2023-05-22 09:49:47
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,7 +52,8 @@
     var s = 100;//三维场景缩放系数
     //创建相机对象
     var camera=new THREE.OrthographicCamera(-s*k,s*k, s,-s,1,1000);
-    camera.position.set(200,300,200);//设置相机位置
+    // camera.position.set(200,300,200);//设置相机位置
+    camera.position.copy(new THREE.Vector3(200, 300, 200)) // 同样可以设置相机位置
     camera.lookAt(scene.position);//设置相机方向(指向的场景对象)
     /**
      * 创建渲染器对象
